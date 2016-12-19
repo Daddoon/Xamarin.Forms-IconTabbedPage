@@ -100,15 +100,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IconTabbedPageRenderer.cs" />
-    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Plugin.IconTabbedPage\Xamarin.Forms.Daddoon.IconTabbedPage.csproj">
+    <ProjectReference Include="..\Xamarin.Forms.Daddoon.IconTabbedPage\Xamarin.Forms.Daddoon.IconTabbedPage.csproj">
       <Project>{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}</Project>
       <Name>Xamarin.Forms.Daddoon.IconTabbedPage</Name>
     </ProjectReference>

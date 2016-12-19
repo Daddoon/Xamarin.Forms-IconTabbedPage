@@ -16,6 +16,12 @@ namespace Xamarin.Forms.Daddoon.Droid
     {
         private static string DoubleToHexa(double value)
         {
+            //Keep color in a valid range
+            if (value < 0.0f) //0% / 0 Octet MIN
+                value = 0.0f;
+            else if (value > 1.0f) //100% / 255 Octet MAX
+                value = 1.0f;
+
             int octetValue = (int)Math.Round(value * 255.0f, 0);
 
             return octetValue.ToString("X2");
