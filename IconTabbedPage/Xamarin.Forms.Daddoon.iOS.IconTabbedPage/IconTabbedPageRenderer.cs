@@ -38,6 +38,8 @@ namespace Xamarin.Forms.Daddoon.iOS
             if (unselectionColor != null)
                 TabBar.UnselectedItemTintColor = unselectionColor;
 
+            TabBar.Translucent = Control.TranslucideBarOniOS;
+
             var items = TabBar.Items;
             for (var i = 0; i < items.Length; i++)
             {

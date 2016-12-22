@@ -15,6 +15,11 @@ namespace Xamarin.Forms.Daddoon
         /// </summary>
         public bool HideText { get; set; }
 
+        /// <summary>
+        /// Translucide Bar On iOS. Default is true
+        /// </summary>
+        public bool TranslucideBarOniOS { get; set; }
+
         ///// <summary>
         ///// Height of the TabBar. Default is -1, for platform default size
         ///// </summary>
@@ -31,6 +36,7 @@ namespace Xamarin.Forms.Daddoon
         public IconTabbedPage()
         {
             HideText = false;
+            TranslucideBarOniOS = true;
         }
 
         public IconTabbedPage(Color BarBackgroundColor, Color BarTextColor, Color UnselectedTextColor) : base()

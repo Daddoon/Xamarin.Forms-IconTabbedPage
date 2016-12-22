@@ -25,6 +25,7 @@ namespace Test.IconTabbedPage.PCL
             BarTextColor = ExportedColors.InverseTextColor;
             UnselectedTextColor = ExportedColors.UnselectedTextTabBar;
 
+            TranslucideBarOniOS = false;
             HideText = true;
 
             Title = "MyTitle TabbedPage";
