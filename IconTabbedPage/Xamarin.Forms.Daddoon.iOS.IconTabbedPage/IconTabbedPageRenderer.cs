@@ -4,21 +4,31 @@ using System.IO;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using System;
 
-[assembly: ExportRenderer(typeof(IconTabbedPage), typeof(IosIconTabbedPageRenderer))]
+[assembly: ExportRenderer(typeof(Xamarin.Forms.Daddoon.IconTabbedPage), typeof(IconTabbedPageRenderer))]
 namespace Xamarin.Forms.Daddoon.iOS
 {
-    public class IosIconTabbedPageRenderer : TabbedRenderer
+    public class IconTabbedPageRenderer : TabbedRenderer
     {
-        public override void ViewWillAppear(bool animated)
+        public static void Initialize()
         {
-            base.ViewWillAppear(animated);
+            #if DEBUG
+                System.Diagnostics.Debug.WriteLine("IconTabbedPageRenderer Initiated!");
+            #endif
+        }
 
+        public IconTabbedPageRenderer()
+        {
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
             IconTabbedPage Control = (IconTabbedPage)Element;
             if (Control == null)
                 return;
 
-            //Récupération de la couleur défini sur le control
+            //Resolving color
             UIColor selectionColor = Control.BarTextColor != null ? Control.BarTextColor.ToUIColor() : null;
             UIColor unselectionColor = Control.UnselectedTextColor != null ? Control.UnselectedTextColor.ToUIColor() : null;
 
@@ -31,16 +41,20 @@ namespace Xamarin.Forms.Daddoon.iOS
             var items = TabBar.Items;
             for (var i = 0; i < items.Length; i++)
             {
-                string icon = Control.GetIconAtIndex(i);
-                if (icon == string.Empty)
-                    continue;
+                #region UNUSED (iOS load icon automatically actually)
 
-                //Les ressources PNG n'ont pas besoin d'extension explicite
-                if (Path.GetExtension(icon).ToLowerInvariant() == ".png")
-                    icon = Path.GetFileNameWithoutExtension(icon);
+                //string icon = Control.GetIconAtIndex(i);
+                //if (icon == string.Empty)
+                //    continue;
 
-                items[i].Image = UIImage.FromBundle(icon);
-                items[i].SelectedImage = UIImage.FromBundle(icon);
+                ////PNG Ressource don't need explicit extension
+                //if (Path.GetExtension(icon).ToLowerInvariant() == ".png")
+                //    icon = Path.GetFileNameWithoutExtension(icon);
+
+                //items[i].Image = UIImage.FromBundle(icon);
+                //items[i].SelectedImage = UIImage.FromBundle(icon);
+
+                #endregion
 
                 if (selectionColor != null)
                 {
@@ -57,7 +71,17 @@ namespace Xamarin.Forms.Daddoon.iOS
 
                     items[i].SetTitleTextAttributes(unselectedColorAttribute, UIControlState.Normal);
                 }
+
+                if (Control.HideText)
+                {
+                    //Hiding current text
+
+                    items[i].Title = @"";
+                    items[i].ImageInsets = new UIEdgeInsets(6, 0, -6, 0);
+                }
             }
+
+            base.ViewDidAppear(animated);
         }
     }
 }

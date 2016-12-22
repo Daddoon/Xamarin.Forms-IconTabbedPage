@@ -4,14 +4,28 @@ using Xamarin.Forms.Daddoon;
 
 namespace Test.IconTabbedPage.PCL
 {
+    public static class ExportedColors
+    {
+
+        public static readonly Color AccentColor = Color.FromRgba(208, 52, 92, 255);
+
+        public static readonly Color DefaultTextColor = Color.FromRgba(85, 85, 85, 255);
+
+        public static readonly Color InverseTextColor = Color.FromRgba(255, 255, 255, 255);
+
+        public static readonly Color UnselectedTextTabBar = Color.FromRgba(91, 9, 31, 255);
+
+    }
+
     public class MockTabbedPage : Xamarin.Forms.Daddoon.IconTabbedPage
     {
-        public MockTabbedPage() : base()
+        public MockTabbedPage()
         {
-            BarBackgroundColor = Color.Red;
-            BarTextColor = Color.White;
-            UnselectedTextColor = Color.Gray;
-            //BarHeight = 500;
+            BarBackgroundColor = ExportedColors.AccentColor;
+            BarTextColor = ExportedColors.InverseTextColor;
+            UnselectedTextColor = ExportedColors.UnselectedTextTabBar;
+
+            HideText = true;
 
             Title = "MyTitle TabbedPage";
 

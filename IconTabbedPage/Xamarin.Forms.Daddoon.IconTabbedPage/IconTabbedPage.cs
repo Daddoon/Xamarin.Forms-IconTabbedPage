@@ -1,4 +1,7 @@
-﻿namespace Xamarin.Forms.Daddoon
+﻿using System;
+using System.Reflection;
+
+namespace Xamarin.Forms.Daddoon
 {
     public class IconTabbedPage : TabbedPage
     {
@@ -6,6 +9,11 @@
         /// Default color of unselected text/images on the bar
         /// </summary>
         public Color UnselectedTextColor { get; set; }
+
+        /// <summary>
+        /// Hide Tab text and only show the image (iOS Only)
+        /// </summary>
+        public bool HideText { get; set; }
 
         ///// <summary>
         ///// Height of the TabBar. Default is -1, for platform default size
@@ -20,9 +28,9 @@
             return Children[index].Icon != null ? Children[index].Icon.File : string.Empty;
         }
 
-        public IconTabbedPage() : base()
+        public IconTabbedPage()
         {
-            UnselectedTextColor = Color.Gray;
+            HideText = false;
         }
 
         public IconTabbedPage(Color BarBackgroundColor, Color BarTextColor, Color UnselectedTextColor) : base()
