@@ -7,7 +7,10 @@ using Xamarin.Forms.Daddoon.Droid;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using System.Linq;
+using Android.Runtime;
+using Java.Lang;
+using System.Collections.Generic;
+using Java.Lang.Reflect;
 
 [assembly: ExportRenderer(typeof(IconTabbedPage), typeof(AndroidIconTabbedPageRenderer))]
 namespace Xamarin.Forms.Daddoon.Droid
@@ -22,7 +25,7 @@ namespace Xamarin.Forms.Daddoon.Droid
             else if (value > 1.0f) //100% / 255 Octet MAX
                 value = 1.0f;
 
-            int octetValue = (int)Math.Round(value * 255.0f, 0);
+            int octetValue = (int)System.Math.Round(value * 255.0f, 0);
 
             return octetValue.ToString("X2");
         }
@@ -47,6 +50,7 @@ namespace Xamarin.Forms.Daddoon.Droid
         private IconTabbedPage Control;
         private global::Android.Graphics.Color selectionColor;
         private global::Android.Graphics.Color unselectionColor;
+        private int PlatformDefaultHeight = -1;
 
         protected override void Dispose(bool disposing)
         {
@@ -70,6 +74,8 @@ namespace Xamarin.Forms.Daddoon.Droid
 
             activity = this.Context as Activity;
             _tabbedPage = e.NewElement as TabbedPage;
+
+            //HackPolicy();
         }
 
         protected override void DispatchDraw(Canvas canvas)
@@ -80,6 +86,40 @@ namespace Xamarin.Forms.Daddoon.Droid
             {
                 ColorDrawable colorDrawable = new ColorDrawable(global::Android.Graphics.Color.ParseColor(COLOR));
                 actionBar.SetStackedBackgroundDrawable(colorDrawable);
+
+                #region NOT WORKING JUST TEST
+                //try
+                //{
+                //    if (PlatformDefaultHeight == -1)
+                //    {
+                //        //Initialization of the default height for this platform in case of restoring
+                //        PlatformDefaultHeight = actionBar.Height;
+                //    }
+
+                //    int height = Control.BarHeight;
+
+                //    Class cls = actionBar.Class;
+
+                //    Class integer = Java.Lang.Integer.Type;
+                //    Java.Lang.Integer intValue = new Integer(height);
+
+                //    Method setContentHeightMethod = cls.GetMethod("setContentHeight", new List<Class>() { integer }.ToArray());
+
+                //    setContentHeightMethod.Invoke(actionBar, intValue);
+
+                //    //Set the current bar size
+                //    if (actionBar.CustomView != null && actionBar.CustomView.Height != Control.BarHeight)
+                //    {
+                //        actionBar.CustomView.SetMinimumHeight((int)Control.BarHeight);
+                //        actionBar.CustomView.LayoutParameters.Height = (int)Control.BarHeight;
+                //    }
+                //}
+                //catch (System.Exception)
+                //{
+                //}
+
+                #endregion
+
                 ActionBarTabsSetup(actionBar);
 
             }
@@ -113,7 +153,7 @@ namespace Xamarin.Forms.Daddoon.Droid
                     }
                 }
             }
-            catch (Exception)
+            catch (System.Exception)
             {
 
             }
@@ -138,7 +178,7 @@ namespace Xamarin.Forms.Daddoon.Droid
             {
                 tab.TabSelected += Tab_TabSelected;
             }
-            catch (Exception)
+            catch (System.Exception)
             {
             }
 
@@ -177,5 +217,63 @@ namespace Xamarin.Forms.Daddoon.Droid
             if (iv != null)
                 iv.SetColorFilter(selectionColor);
         }
+
+        #region Bar Height Overriding
+
+        /// <summary>
+        /// NOT WORKING JUST FOR TEST PURPOSE
+        /// </summary>
+        private void HackPolicy()
+        {
+            global::Android.Views.View container = FindScrollingTabContainer();
+            if (container == null) return;
+
+            try
+            {
+                //TODO: Uncomment when needed
+                //int height = Control.BarHeight;
+                int height = 0;
+
+                Class cls = container.Class;
+
+                Class integer = Java.Lang.Integer.Type;
+                Java.Lang.Integer intValue = new Integer(height);
+                
+                Method setContentHeightMethod = cls.GetMethod("setContentHeight", new List<Class>() { integer }.ToArray());
+
+                setContentHeightMethod.Invoke(container, intValue);
+            }
+            catch (System.Exception e)
+            {
+            }
+        }
+
+        /// <summary>
+        /// NOT WORKING JUST FOR TEST PURPOSE
+        /// </summary>
+        private global::Android.Views.View FindScrollingTabContainer()
+        {
+            global::Android.Views.View decor = activity.Window.DecorView;
+
+            int containerId = activity.Resources.GetIdentifier("action_bar_container", "id", "android");
+
+            // check if appcompat library is used
+            if (containerId == 0)
+                return null;
+
+            FrameLayout container = (FrameLayout)decor.FindViewById(containerId);
+
+            for (int i = 0; i < container.ChildCount; i++)
+            {
+                global::Android.Views.View scrolling = container.GetChildAt(i);
+
+                if (scrolling.Class.SimpleName == "ActionBarContextView")
+                    return scrolling;
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }

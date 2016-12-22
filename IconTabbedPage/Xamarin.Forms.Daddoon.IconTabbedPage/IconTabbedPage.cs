@@ -3,10 +3,14 @@
     public class IconTabbedPage : TabbedPage
     {
         /// <summary>
-        /// Couleur par défaut du texte des items nont sélectionné sur la barre
-        /// La valeur définie par défaut est la constante AccentColor
+        /// Default color of unselected text/images on the bar
         /// </summary>
         public Color UnselectedTextColor { get; set; }
+
+        ///// <summary>
+        ///// Height of the TabBar. Default is -1, for platform default size
+        ///// </summary>
+        //public int BarHeight { get; set; }
 
         public string GetIconAtIndex(int index)
         {
