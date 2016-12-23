@@ -33,14 +33,22 @@ namespace Xamarin.Forms.Daddoon
             return Children[index].Icon != null ? Children[index].Icon.File : string.Empty;
         }
 
-        public IconTabbedPage()
+
+        private void CommonInit()
         {
             HideText = false;
             TranslucideBarOniOS = true;
         }
 
+        public IconTabbedPage() : base()
+        {
+            CommonInit();
+        }
+
         public IconTabbedPage(Color BarBackgroundColor, Color BarTextColor, Color UnselectedTextColor) : base()
         {
+            CommonInit();
+
             this.BarBackgroundColor = BarBackgroundColor;
             this.BarTextColor = BarTextColor;
             this.UnselectedTextColor = UnselectedTextColor;

@@ -171,8 +171,6 @@ namespace Xamarin.Forms.Daddoon.Droid
         private void TabSetup(ActionBar.Tab tab, int resourceID, bool isSelected)
         {
             ImageView iv = new ImageView(activity);
-            iv.LayoutParameters = new LayoutParams(200, 400);
-            iv.LayoutParameters.Height = 500;
 
             iv.SetImageResource(resourceID);
             iv.SetPadding(0, 10, 0, 0);

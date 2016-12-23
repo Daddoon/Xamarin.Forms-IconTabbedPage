@@ -36,6 +36,9 @@ namespace Test.IconTabbedPage.iOS
 
             UIButton.Appearance.TintColor = AccentColor;
             UIButton.Appearance.SetTitleColor(AccentColor, UIControlState.Normal);
+
+            UITabBar.Appearance.BarTintColor = AccentColor;
+            UITabBar.Appearance.TintColor = TextColor;
         }
     }
 
@@ -47,6 +50,8 @@ namespace Test.IconTabbedPage.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            Appearance.Configure();
 
             Xamarin.Forms.Daddoon.iOS.IconTabbedPageRenderer.Initialize();
 
